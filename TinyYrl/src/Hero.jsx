@@ -36,7 +36,7 @@ function Hero() {
           return [{ shortUrl: data.shortURL, longUrl: longUrl }].concat(prev);
         });
       } else {
-        alert("Kuch masla ho gaya, dobara try karo.");
+        alert("Error , Try Again");
       }
     } catch (err) {
       alert("Backend se connect nahi ho paya.");
