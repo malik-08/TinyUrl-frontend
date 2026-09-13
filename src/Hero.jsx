@@ -203,7 +203,7 @@ function Hero() {
 
             {shortUrl && (
               <div>
-                <label className="block text-sm font-bold mb-1">✨ TinyURL Link</label>
+                <label className="block text-sm font-bold mb-1"> TinyURL Link</label>
                 <div className="flex items-center border border-green-500 rounded-md px-3 py-2 mb-4">
                   <a href={shortUrl} target="_blank" rel="noreferrer" className="flex-1 text-[#1a7fa0] font-semibold break-all">
                     {shortUrl}
