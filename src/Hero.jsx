@@ -21,14 +21,12 @@ function Hero() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(
-        "https://tinyurl-backend-production-b4d3.up.railway.app/saveurl",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ longURL: longUrl, alias }),
-        }
-      );
+      const response = await fetch("https://tiny-url-backend-eight.vercel.app/saveurl", {
+      method: "POST",
+     headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ longURL: longUrl, alias }),
+});
+      ;
       const data = await response.json();
       if (data.ok) {
         setShortUrl(data.shortURL);
@@ -39,7 +37,7 @@ function Hero() {
         alert("Error , Try Again");
       }
     } catch (err) {
-      alert("Backend se connect nahi ho paya.");
+      alert("Server is not connected, Try Again");
       console.error(err);
     }
   };
@@ -67,7 +65,7 @@ function Hero() {
       navigator.share({ url: shortUrl });
     } else {
       navigator.clipboard.writeText(shortUrl);
-      alert("Link copy ho gaya (share supported nahi hai is browser mein).");
+      alert("Link Copied (Copy Not Supported).");
     }
   };
 
@@ -75,7 +73,7 @@ function Hero() {
   const handleQrSubmit = (e) => {
     e.preventDefault();
     if (!qrUrl) {
-      alert("Pehle URL daalo.");
+      alert("Enter your URL.");
       return;
     }
     const generatedQr =
@@ -208,7 +206,7 @@ function Hero() {
                   <a href={shortUrl} target="_blank" rel="noreferrer" className="flex-1 text-[#1a7fa0] font-semibold break-all">
                     {shortUrl}
                   </a>
-                  <button onClick={handleCopy} title="Copy">📋</button>
+                  <button onClick={handleCopy} title="Copy"></button>
                 </div>
 
                 <div className="grid grid-cols-4 gap-2 mb-4">
@@ -237,26 +235,44 @@ function Hero() {
           </div>
         )}
 
-        {/* QR Code tab */}
+       {/* QR Code tab */}
         {activeTab === "qr" && (
-          <form onSubmit={handleQrSubmit} className="p-6">
-            <label className="block text-sm font-bold mb-1">URL for QR Code *</label>
-            <input
-              type="url"
-              placeholder="Paste URL here"
-              value={qrUrl}
-              onChange={(e) => setQrUrl(e.target.value)}
-              required
-              className="w-full border border-slate-300 rounded-md px-3 py-2 mb-4 focus:outline-none focus:border-[#1a7fa0]"
-            />
+          <div className="p-6">
+            {!qrImage ? (
+              <form onSubmit={handleQrSubmit}>
+                <label className="block text-sm font-bold mb-1">URL for QR Code *</label>
+                <input
+                  type="url"
+                  placeholder="Paste URL here"
+                  value={qrUrl}
+                  onChange={(e) => setQrUrl(e.target.value)}
+                  required
+                  className="w-full border border-slate-300 rounded-md px-3 py-2 mb-4 focus:outline-none focus:border-[#1a7fa0]"
+                />
 
-            <button
-              type="submit"
-              className="w-full bg-[#1e8e5a] text-white font-bold py-3 rounded-md hover:bg-[#24a76d] transition"
-            >
-              Generate QR Code
-            </button>
-          </form>
+                <button
+                  type="submit"
+                  className="w-full bg-[#1e8e5a] text-white font-bold py-3 rounded-md hover:bg-[#24a76d] transition"
+                >
+                  Generate QR Code
+                </button>
+              </form>
+            ) : (
+              <div className="text-center flex flex-col items-center">
+                <label className="block text-sm font-bold mb-3">Generated QR Code</label>
+                <img src={qrImage} alt="QR Code" className="mb-4 border p-2 rounded-md" />
+                <button
+                  onClick={() => {
+                    setQrImage("");
+                    setQrUrl("");
+                  }}
+                  className="w-full bg-[#1e8e5a] text-white font-bold py-3 rounded-md hover:bg-[#24a76d] transition"
+                >
+                  Generate Another QR
+                </button>
+              </div>
+            )}
+          </div>
         )}
       </div>
     </section>
